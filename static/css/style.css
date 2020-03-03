@@ -1,0 +1,29 @@
+#test
+{
+    padding: 10px;
+}
+
+  
+#given_text
+{
+    font-size: 20px;
+}
+#user_text
+{
+    font-size: 20px;
+}
+
+#test
+{
+    padding: 5px;
+}
+
+#easy, #medium, #hard, #random
+{
+    margin:10px;
+}
+
+#tts-div 
+{
+    padding: 10px;
+}

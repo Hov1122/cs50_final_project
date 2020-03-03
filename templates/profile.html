@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block main %}
+    <h2>You learned those texts</h2>
+    <span>{{level}}</span>
+    <ul style='padding:10px;'>
+    {% for i in learned %}
+        <li>{{i}}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

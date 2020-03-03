@@ -1,0 +1,193 @@
+{% extends "layout.html" %}
+{% block title %}
+  Speaking test
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{{ url_for('static', filename='JS/speech.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<style>
+  #mic-off
+  {
+    display: none;
+  }
+  #tts-stop
+  {
+    display: none;
+  }
+  #result
+  {
+    display: none;
+  }
+  #congrats
+  {
+    display: none;
+  }
+</style>
+
+
+{% endblock %}
+    
+{% block main %}
+
+<div id='congrats' class="alert alert-primary" role="alert">
+  <p id = 'cp'></p>
+</div>
+<div id = "mic" align='center'>
+  <!-- SEARCH FIELD -->
+  
+  <span id = 'user_text'></span>
+  <!-- SPEECH RECOGNITION -->
+  <div id="search-speech" style="display:none"></div>
+    <br><br>
+    <p>
+       Click on Microphone button, speak into the mic, and wait for a second.
+    </p>
+    <button  class="button" disabled type="button" id="mic-on" value="Speech Recognition On"><img src="../static/photos/mic-on3.png" /></button>
+    <button type="button"  disabled id="mic-off" value="Cancel"><img src="../static/photos/mic-off2.png"/></button>
+    
+</div>
+
+<div id = 'test' align='center'>
+  <button id='easy' class="btn btn-primary" type="submit" >Easy text</button>
+  <button id= 'medium' class="btn btn-primary" type="button">Medium text</button>
+  <button id= "hard" class="btn btn-primary" type="button">Hard text</button>
+  <button id='random' class="btn btn-primary" type="button">Random text</button>
+</div>
+
+
+<div align='center' id='tts-div'  >
+  <p id = "given_text"></p>
+  <button id='tts' onclick="speak(document.getElementById('given_text').textContent)" disabled class="btn btn-primary" type="button" >Correct prnouncation</button>
+  <button id='tts-stop' onclick='speak_off()' disabled class="btn btn-primary" type="button" >Cancel</button>
+</div>
+<div align='center'  id = "result" class="alert alert-primary" role="alert">
+  <p id = "res"></p>
+  <p id = "rightness"></p>
+  <p id = "count"></p>
+
+  <ul style="list-style-type:none">
+
+  </ul>
+  
+
+</div>
+
+<script>
+  function speak (message) {
+    var msg = new SpeechSynthesisUtterance(message);
+    msg.lang = 'en-US';
+    window.speechSynthesis.speak(msg);
+    msg.onend = function(event) {
+      $('#tts-stop').prop('disabled', true);
+      $('#tts').prop('disabled', false);
+      $("#tts").show();
+      $("#tts-stop").hide();
+    
+  }
+    
+  }
+  function speak_off() {
+    var synth = window.speechSynthesis;
+    synth.cancel();
+  }
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#random").click(function() {
+      $('#mic-on').prop('disabled', false);
+      $('#tts').prop('disabled', false);
+      $('#result').hide();
+      $('#congrats').hide();
+      $.getJSON('/get_text', function(dat) {
+        $("#given_text").text(dat);
+      });
+
+      });
+  });
+
+
+</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#easy").click(function() {
+      $('#mic-on').prop('disabled', false);
+      $('#tts').prop('disabled', false);
+      $('#result').hide();
+      $('#congrats').hide();
+      $.getJSON('/get_text/easy', function(dat) {
+        $("#given_text").text(dat);
+      });
+
+      });
+  });
+
+
+</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#medium").click(function() {
+      $('#mic-on').prop('disabled', false);
+      $('#tts').prop('disabled', false);
+      $('#result').hide();
+      $('#congrats').hide();
+      $.getJSON('/get_text/medium', function(dat) {
+        $("#given_text").text(dat);
+      }); 
+      }); 
+  });
+
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+$("#hard").click(function() {
+  $('#mic-on').prop('disabled', false);
+  $('#tts').prop('disabled', false);
+  $('#result').hide();
+  $('#congrats').hide();
+  $.getJSON('/get_text/hard', function(dat) {
+    $("#given_text").text(dat);
+  });
+
+  });
+});
+
+
+
+</script>
+
+<script type="text/javascript">
+  $("#mic-on").click(function(){
+    $('#tts').prop('disabled', true);
+    $('#congrats').hide();
+    $("#mic-on").hide();
+    $("#mic-off").show();
+    });
+  $("#mic-off").click(function(){
+    $('#tts').prop('disabled', false);
+    $('#congrats').hide();
+    $("#mic-on").show();
+    $("#mic-off").hide();
+})
+</script>
+
+<script type="text/javascript">
+  $("#tts").click(function(){
+    $('#tts-stop').prop('disabled', false);
+    $('#tts').prop('disabled', true);
+    $("#tts").hide();
+    $("#tts-stop").show();
+    });
+    $("#tts-stop").click(function(){
+      $('#tts').prop('disabled', false);
+      $('#tts-stop').prop('disabled', true);
+      $("#tts").show();
+      $("#tts-stop").hide();
+  })
+  </script>
+
+
+{% endblock %}
+  
