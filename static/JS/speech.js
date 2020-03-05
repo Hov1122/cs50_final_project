@@ -39,10 +39,12 @@ window.addEventListener('load', function () {
                             $('#cp').text("Congratulations you learned new text");
                             $('#count').text('');
                             $('#rightness').text('');
+                            $('#given_text').css('color', 'green');
                           }
                           
                           else
                           {
+                            $('#given_text').css('color', 'red');
                             $('#count').text('Count of wrong words: ' + data['count']);
                             count = data['count']
                             
